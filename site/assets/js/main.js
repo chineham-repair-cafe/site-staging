@@ -13,14 +13,15 @@
 
 function countdownTo(date) {
   const countDownDate = new Date(date).getTime();
+  let countdownInterval;
 
   const updateCountdown = () => {
     const now = new Date().getTime();
     const distance = countDownDate - now;
 
-    if (distance <= 0) {
+    if (Math.sign(distance) === -1) {
       clearInterval(countdownInterval);
-      return;
+      return; // Return early if the countdown date has passed.
     }
 
     const weeks = Math.floor(distance / (1000 * 60 * 60 * 24 * 7));
@@ -45,7 +46,7 @@ function countdownTo(date) {
   };
 
   updateCountdown();
-  const countdownInterval = setInterval(updateCountdown, 1000);
+  countdownInterval = setInterval(updateCountdown, 1000);
 }
 
 (function() {
