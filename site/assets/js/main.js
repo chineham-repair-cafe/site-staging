@@ -10,23 +10,45 @@
 
 */
 
+function predictNextEvent() {
+    const weekday = 6, // Saturday.
+          nth = 3, // Third Saturday of the month - Repair Cafe.
+          date = new Date(); // Current date in user browser.
 
-function countdownTo(date) {
-  const countDownDate = new Date(date).getTime();
+    var count = 0, // Iteration counter.
+        idate = new Date(date.getFullYear(), date.getMonth(), 1); // End result Date.
+
+    while (true) {
+      if (idate.getDay() === weekday) {
+        if (++count === nth) {
+          break;
+        };
+      }
+
+      idate.setDate(idate.getDate() + 1);
+    }
+
+    idate.setHours(10, 0, 0, 0); // Set the time to 10am.
+
+    return idate;
+};
+
+function countdownTo() {
+  const countDownDate = predictNextEvent();
+
   let countdownInterval;
 
   const updateCountdown = () => {
-    const now = new Date().getTime();
-    const distance = countDownDate - now;
+    const now = new Date().getTime(),
+          distance = countDownDate - now,
+          weeks = Math.floor(distance / (1000 * 60 * 60 * 24 * 7)),
+          days = Math.floor((distance % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24)),
+          hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
     if (Math.sign(distance) === -1) {
       clearInterval(countdownInterval);
       return; // Return early if the countdown date has passed.
     }
-
-    const weeks = Math.floor(distance / (1000 * 60 * 60 * 24 * 7));
-    const days = Math.floor((distance % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
     let countdownString = "";
 
@@ -40,8 +62,12 @@ function countdownTo(date) {
 
     countdownString += `${hours} hour${hours > 1 ? 's' : ''}`;
 
-    document.querySelectorAll('.nextRC').forEach((e, _i) => {
-      e.innerHTML = countdownString + " until the next Repair Cafe";
+    document.querySelectorAll('.nextRCTimer').forEach((e, _i) => {
+      e.innerHTML = countdownString + " until the next Repair Cafe (10am to 1pm)";
+    });
+
+    document.querySelectorAll('.nextRCParagraph').forEach((e, _i) => {
+      e.innerHTML = countDownDate.getDate() + "/" + (countDownDate.getMonth() + 1) + "/" + countDownDate.getFullYear() + "";
     });
   };
 
