@@ -18,18 +18,15 @@ function predictNextEvent(bumpMonth = false) {
     let count = 0, // Iteration counter.
         idate = new Date(date.getFullYear(), date.getMonth(), 1); // End result Date.
 
-    if (bumpMonth) {
+    if (bumpMonth)
       idate.setMonth(idate.getMonth() + 1);
-    };
 
     while (true) {
-      if (idate.getDay() === weekday) {
-        if (++count === nth) {
+      if (idate.getDay() === weekday)
+        if (++count === nth)
           break;
-        };
-      }
-      idate.setDate(idate.getDate() + 1);
 
+      idate.setDate(idate.getDate() + 1);
     }
 
     idate.setHours(10, 0, 0, 0); // Set the time to 10am.
@@ -65,13 +62,11 @@ function countdownTo() {
           hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     let countdownString = "";
 
-    if (weeks > 0) {
+    if (weeks > 0)
       countdownString += `${weeks} week${weeks > 1 ? 's' : ''}, `;
-    }
 
-    if (days > 0) {
+    if (days > 0)
       countdownString += `${days} day${days > 1 ? 's' : ''}, `;
-    }
 
     countdownString += `${hours} hour${hours > 1 ? 's' : ''}`;
 
