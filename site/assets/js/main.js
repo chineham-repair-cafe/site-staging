@@ -10,7 +10,7 @@
 
 */
 
-function predictNextEvent() {
+function predictNextEvent(bumpMonth = false) {
     const weekday = 6, // Saturday.
           nth = 3, // Third Saturday of the month - Repair Cafe.
           date = new Date(); // Current date in user browser.
@@ -18,14 +18,18 @@ function predictNextEvent() {
     var count = 0, // Iteration counter.
         idate = new Date(date.getFullYear(), date.getMonth(), 1); // End result Date.
 
+    if (bumpMonth) {
+      idate.setMonth(idate.getMonth() + 1);
+    };
+
     while (true) {
       if (idate.getDay() === weekday) {
         if (++count === nth) {
           break;
         };
       }
-
       idate.setDate(idate.getDate() + 1);
+
     }
 
     idate.setHours(10, 0, 0, 0); // Set the time to 10am.
@@ -38,17 +42,45 @@ function countdownTo() {
 
   let countdownInterval;
 
-  const updateCountdown = () => {
+  const updatePage = () => {
     const now = new Date().getTime(),
-          distance = countDownDate - now,
-          weeks = Math.floor(distance / (1000 * 60 * 60 * 24 * 7)),
-          days = Math.floor((distance % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24)),
-          hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          distance = countDownDate - now;
+
+    var nextEvt = undefined;
+    const dateOpts = {
+        month: 'long',
+        day: 'numeric'
+      };
 
     if (Math.sign(distance) === -1) {
-      clearInterval(countdownInterval);
-      return; // Return early if the countdown date has passed.
-    }
+      nextEvt = predictNextEvent(true);
+    } else {
+      nextEvt = predictNextEvent();
+    };
+   
+    document.querySelectorAll(".nextEventDate").forEach((e, _i) => {
+      e.innerHTML = "The next Repair Cafe is on " + nextEvt.toLocaleDateString(undefined, dateOpts) + " 10am to 1pm.";
+    })
+
+    document.querySelectorAll(".nextEventScroller").forEach((e, _i) => {
+      e.innerHTML = "Our next session is " + nextEvt.toLocaleDateString(undefined, dateOpts) + " 10am to 1pm.";
+    })
+
+  }
+
+  const updateCountdown = () => {
+    const now = new Date().getTime();
+    var distance = countDownDate - now;
+
+    if (Math.sign(distance) === -1) {
+      distance = predictNextEvent(true) - now; 
+    } else {
+      distance = predictNextEvent() - now;
+    };
+
+    const weeks = Math.floor(distance / (1000 * 60 * 60 * 24 * 7)),
+          days = Math.floor((distance % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24)),
+          hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
     let countdownString = "";
 
@@ -62,16 +94,17 @@ function countdownTo() {
 
     countdownString += `${hours} hour${hours > 1 ? 's' : ''}`;
 
-    document.querySelectorAll('.nextRCTimer').forEach((e, _i) => {
-      e.innerHTML = countdownString + " until the next Repair Cafe (10am to 1pm)";
+    document.querySelectorAll('.nextEventTimer').forEach((e, _i) => {
+      e.innerHTML = countdownString + " until the next Repair Cafe";
     });
 
-    document.querySelectorAll('.nextRCParagraph').forEach((e, _i) => {
+    document.querySelectorAll('.nextEventParagraph').forEach((e, _i) => {
       e.innerHTML = countDownDate.getDate() + "/" + (countDownDate.getMonth() + 1) + "/" + countDownDate.getFullYear() + "";
     });
   };
 
   updateCountdown();
+  updatePage();
   countdownInterval = setInterval(updateCountdown, 1000);
 }
 
