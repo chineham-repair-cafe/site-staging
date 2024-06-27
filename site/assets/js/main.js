@@ -54,34 +54,15 @@ function countdownTo() {
 
     if (Math.sign(distance) === -1) {
       nextEvt = predictNextEvent(true);
+      distance = predictNextEvent(true) - now;
     } else {
       nextEvt = predictNextEvent();
-    };
-   
-    document.querySelectorAll(".nextEventDate").forEach((e, _i) => {
-      e.innerHTML = "The next Repair Cafe is on " + nextEvt.toLocaleDateString(undefined, dateOpts) + " 10am to 1pm.";
-    })
-
-    document.querySelectorAll(".nextEventScroller").forEach((e, _i) => {
-      e.innerHTML = "Our next session is " + nextEvt.toLocaleDateString(undefined, dateOpts) + " 10am to 1pm.";
-    })
-
-  }
-
-  const updateCountdown = () => {
-    const now = new Date().getTime();
-    var distance = countDownDate - now;
-
-    if (Math.sign(distance) === -1) {
-      distance = predictNextEvent(true) - now; 
-    } else {
       distance = predictNextEvent() - now;
     };
 
     const weeks = Math.floor(distance / (1000 * 60 * 60 * 24 * 7)),
           days = Math.floor((distance % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24)),
           hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
     let countdownString = "";
 
     if (weeks > 0) {
@@ -94,16 +75,15 @@ function countdownTo() {
 
     countdownString += `${hours} hour${hours > 1 ? 's' : ''}`;
 
-    document.querySelectorAll('.nextEventTimer').forEach((e, _i) => {
-      e.innerHTML = countdownString + " until the next Repair Cafe";
-    });
+    document.querySelectorAll(".nextEventDate").forEach((e, _i) => {
+      e.innerHTML = "Our next session is on " + nextEvt.toLocaleDateString(undefined, dateOpts) + ", from 10am to 1pm (in " + countdownString + ")." ;
+    })
 
-    document.querySelectorAll('.nextEventParagraph').forEach((e, _i) => {
-      e.innerHTML = countDownDate.getDate() + "/" + (countDownDate.getMonth() + 1) + "/" + countDownDate.getFullYear() + "";
-    });
+    document.querySelectorAll(".nextEventScroller").forEach((e, _i) => {
+      e.innerHTML = "Our next session is " + nextEvt.toLocaleDateString(undefined, dateOpts) + " 10am to 1pm.";
+    })
   };
 
-  updateCountdown();
   updatePage();
   countdownInterval = setInterval(updateCountdown, 1000);
 }
