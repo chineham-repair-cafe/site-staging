@@ -1,4 +1,2 @@
-- Javascript - date list <ul> <- from JSON array.
-  - Dynamically populate on DOMContentLoaded? Modal?
 - Background.
 - Fixed photos.
