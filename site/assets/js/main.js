@@ -15,7 +15,7 @@ function predictNextEvent(bumpMonth = false) {
           nth = 3, // Third Saturday of the month - Repair Cafe.
           date = new Date(); // Current date in user browser.
 
-    var count = 0, // Iteration counter.
+    let count = 0, // Iteration counter.
         idate = new Date(date.getFullYear(), date.getMonth(), 1); // End result Date.
 
     if (bumpMonth) {
@@ -44,7 +44,7 @@ function countdownTo() {
 
   const updatePage = () => {
     const now = new Date().getTime();
-    var distance = countDownDate - now;
+    let distance = countDownDate - now;
         nextEvt = undefined;
 
     const dateOpts = {
