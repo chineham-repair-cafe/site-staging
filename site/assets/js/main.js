@@ -43,10 +43,10 @@ function countdownTo() {
   let countdownInterval;
 
   const updatePage = () => {
-    const now = new Date().getTime(),
-          distance = countDownDate - now;
+    const now = new Date().getTime();
+    var distance = countDownDate - now;
+        nextEvt = undefined;
 
-    var nextEvt = undefined;
     const dateOpts = {
         month: 'long',
         day: 'numeric'
