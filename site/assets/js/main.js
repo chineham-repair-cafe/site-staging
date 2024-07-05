@@ -34,6 +34,12 @@ function predictNextEvent(bumpMonth = false) {
     return idate;
 };
 
+function dateOrdinal(n) {
+    var s = ["th", "st", "nd", "rd"];
+    var v = n%100;
+    return n + (s[(v-20)%10] || s[v] || s[0]);
+}
+
 function countdownTo() {
   const countDownDate = predictNextEvent();
 
@@ -43,11 +49,6 @@ function countdownTo() {
     const now = new Date().getTime();
     let distance = countDownDate - now;
         nextEvt = undefined;
-
-    const dateOpts = {
-        month: 'long',
-        day: 'numeric'
-      };
 
     if (Math.sign(distance) === -1) {
       nextEvt = predictNextEvent(true);
@@ -70,12 +71,14 @@ function countdownTo() {
 
     countdownString += `${hours} hour${hours > 1 ? 's' : ''}`;
 
+    const monthLong = nextEvt.toLocaleString(undefined, { month: "long" });
+
     document.querySelectorAll(".nextEventDate").forEach((e, _i) => {
-      e.innerHTML = "Our next session is on " + nextEvt.toLocaleDateString(undefined, dateOpts) + ", from 10am to 1pm (in " + countdownString + ")." ;
+      e.innerHTML = "Our next session is on " + dateOrdinal(nextEvt.getDate()) +  " " + monthLong + ", from 10am to 1pm (in " + countdownString + ")." ;
     })
 
     document.querySelectorAll(".nextEventScroller").forEach((e, _i) => {
-      e.innerHTML = "Our next session is " + nextEvt.toLocaleDateString(undefined, dateOpts) + " 10am to 1pm.";
+      e.innerHTML = "Our next session is on " + dateOrdinal(nextEvt.getDate()) +  " " + monthLong + ", from 10am to 1pm.";
     })
   };
 
