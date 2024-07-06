@@ -83,7 +83,7 @@ function countdownTo() {
   };
 
   updatePage();
-  countdownInterval = setInterval(updateCountdown, 1000);
+  countdownInterval = setInterval(updatePage, 1000);
 }
 
 (function() {
