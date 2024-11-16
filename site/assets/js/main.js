@@ -74,21 +74,21 @@ function countdownTo() {
     const monthLong = nextEvt.toLocaleString(undefined, { month: "long" });
 
     document.querySelectorAll(".nextEventDate").forEach((e, _i) => {
-      if (nextEvt.getMonth() == 11) {
-        e.innerHTML = "We have finished our sessions for 2024. Please check back next year (2025)."
+      if (nextEvt.getMonth() == 11 && now.getHours() >= 13) {
+        e.innerHTML = "we have finished our sessions for 2024. please check back next year (2025)."
         return;
       }
 
-      e.innerHTML = "Our next session is on " + dateOrdinal(nextEvt.getDate()) +  " " + monthLong + ", from 10am to 1pm (in " + countdownString + ")." ;
+      e.innerHTML = "our next session is on " + dateOrdinal(nextEvt.getDate()) +  " " + monthLong + ", from 10am to 1pm (in " + countdownString + ")." ;
     })
 
     document.querySelectorAll(".nextEventScroller").forEach((e, _i) => {
-      if (nextEvt.getMonth() == 11) {
-        e.innerHTML = "We have finished our sessions for 2024. Please check back next year (2025)."
+      if (nextEvt.getMonth() == 11 && now.getHours() >= 13) {
+        e.innerHTML = "we have finished our sessions for 2024. please check back next year (2025)."
         return;
       }
 
-      e.innerHTML = "Our next session is on " + dateOrdinal(nextEvt.getDate()) +  " " + monthLong + ", from 10am to 1pm.";
+      e.innerHTML = "our next session is on " + dateOrdinal(nextEvt.getDate()) +  " " + monthLong + ", from 10am to 1pm.";
     })
   };
 
