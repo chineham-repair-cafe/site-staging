@@ -50,6 +50,20 @@ function countdownTo() {
     let distance = countDownDate - now;
         nextEvt = undefined;
 
+    /*
+    if ((now.getDate() === countDownDate.getDate()) && (now.getHours() < 14) && (now.getHours() >= 10)) {
+
+    document.querySelectorAll(".nextEventDate").forEach((e, _i) => {
+      e.innerHTML = "our next session is now! Pop along!";
+     return;
+    })
+
+    document.querySelectorAll(".nextEventScroller").forEach((e, _i) => {
+      e.innerHTML = "our next session is now! Pop along!";
+      return;
+    })
+    }; */
+
     if (Math.sign(distance) === -1) {
       nextEvt = predictNextEvent(true);
       distance = predictNextEvent(true) - now;
